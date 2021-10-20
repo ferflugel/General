@@ -1,0 +1,12 @@
+#----------- Part 1
+
+What does each channel measures?
+
+CH1: Measures the initial wave and the reflected wave.
+CH2: Measures the transmitted wave.
+
+Measurements for delay: see delay.csv; error = 0.05 us and 50 ohm
+
+#----------- Part 2
+
+Time of flight of the cable: measure the difference between time the pulse leaves and returns
