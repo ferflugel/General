@@ -1,11 +1,10 @@
 // Main circuit
-module part3_internal(clock, reset, ParallelLoadn, RotateRight, ASRight, Data_IN, Q);
+module part3(clock, reset, ParallelLoadn, RotateRight, ASRight, Data_IN, Q);
 
     // inputs, outputs, and wires
     input clock, reset, ParallelLoadn, RotateRight, ASRight;
     input [7: 0] Data_IN;
     output [7: 0] Q;
-
 
     // Using the ASR functionality
     wire ASR_result;

@@ -1,5 +1,5 @@
 // Main circuit
-module part2_internal(Clock, Reset_b, Data, Function, ALUout);
+module part2(Clock, Reset_b, Data, Function, ALUout);
 
     input Clock, Reset_b;
     input [3:0] Data;
@@ -8,8 +8,8 @@ module part2_internal(Clock, Reset_b, Data, Function, ALUout);
 
     wire [3:0] A;
     wire [3:0] B;
-    reg [7:0] regIn;
     wire [3:0] s1,c1;
+    reg [7:0] regIn;
 
     assign A = Data;
     assign B = ALUout[3:0];
