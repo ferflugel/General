@@ -8,7 +8,7 @@ module part3(clock, reset, ParallelLoadn, RotateRight, ASRight, Data_IN, Q);
 
     // Using the ASR functionality
     wire ASR_result;
-    multiplexer MUX(.a(Q[7]), .b(Q[0]), .s(ASRight), .out(ASR_result));
+    multiplexer MUX(.b(Q[7]), .a(Q[0]), .s(ASRight), .out(ASR_result));
 
     // connecting the circuits
     sub_circuit C0(.left(Q[1]), .right(Q[7]), .LoadLeft(RotateRight), .D(Data_IN[0]), .LoadN(ParallelLoadn), .clk(clock), .reset(reset), .q(Q[0]));
@@ -22,17 +22,19 @@ module part3(clock, reset, ParallelLoadn, RotateRight, ASRight, Data_IN, Q);
 
 endmodule
 
-
 // Sub circuit
 module sub_circuit(left, right, LoadLeft, D, LoadN, clk, reset, q);
     input left, right, LoadLeft, D, LoadN, clk, reset;
     output q;
+	 
     wire mux1_output, mux2_output;
-    multiplexer MUX1(.a(left), .b(right), .s(LoadLeft), .out(mux1_output));
-    multiplexer MUX2(.a(mux1_output), .b(D), .s(LoadN), .out(mux2_output));
+	 
+    multiplexer MUX1(.a(right), .b(left), .s(LoadLeft), .out(mux1_output));
+	 
+    multiplexer MUX2(.a(D), .b(mux1_output), .s(LoadN), .out(mux2_output));
+	 
     flip_flop FF(.clk(clk), .d(mux2_output), .reset(reset), .q(q));
 endmodule
-
 
 // Flip flop
 module flip_flop(clk, d, reset, q);
@@ -40,13 +42,12 @@ module flip_flop(clk, d, reset, q);
     output reg q;
     always @(posedge clk)
     begin
-        if(reset == 1'b0)
+        if(reset == 1'b1)
             q <= 0;
         else
             q <= d;
     end
 endmodule
-
 
 // Multiplexer
 module multiplexer(a, b, s, out);
