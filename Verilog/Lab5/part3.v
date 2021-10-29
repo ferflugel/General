@@ -6,13 +6,13 @@ input [2:0] Letter;
 output DotDashOut;
 wire clock2;
 reg [11:0] q;
-divider d1(.clock(ClockIn), .clock2(clock2), .Reset(Resetn));
+divider d1(.clock(ClockIn), .clock2(clock2), .Reset(Resetn));		
 always@(posedge ClockIn)
 begin
 	if(Start == 1'b1)
-	begin  // I dont know if this way is correct
+	begin  
 	case(Letter)
-		3'b000: q <= 12'b101110000000;  // A
+		3'b000: q <= 12'b101110000000;  // A 
 		3'b001: q <= 12'b111010101000;  // B
 		3'b010: q <= 12'b111010111010;  // C
 		3'b011: q <= 12'b111010100000;  // D
@@ -20,7 +20,7 @@ begin
 		3'b101: q <= 12'b101011101000;  // F
 		3'b110: q <= 12'b111011101000;  // G
 		3'b111: q <= 12'b101010100000;  // H
-		default: q <= 12'b000000000000; // I
+		default: q <= 12'b000000000000; 
 	endcase
 	end
 end
@@ -34,12 +34,13 @@ shiftreg s1(.Data_IN(q), .Out(DotDashOut), .clock(ClockIn), .clock2(clock2), .re
 
 endmodule
 
-module divider(clock, clock2, Reset);
+module divider(clock, clock2, Reset, Start);
 	input clock;
 	output reg clock2;
 	input Reset;
+	input Start;
 	reg [8:0] counter = 9'd0;
-
+	
 	// assumes an input of 500 Hz. Returns output of 2 Hz. => we divide by 250
 	always@(posedge clock)
 	begin
@@ -60,12 +61,30 @@ module shiftreg(Data_IN, Out, clock, clock2, reset, Start);
 	input clock2; // different clock (should work based on the counter i.e. only every 0.5 seconds)
 	input reset;
 	input Start;
-	reg [12:0] w;
+	reg [12:0] w; 
 	assign Out = w[12]; // 12 used to have an extra one at the end which can be loaded
+	always@(*)begin
+		if(reset==1'b0)
+		begin
+			w[0] = 1'b0;	
+			w[1] = 1'b0;
+			w[2] = 1'b0;
+			w[3] = 1'b0;
+			w[4] = 1'b0;
+			w[5] = 1'b0;
+			w[6] = 1'b0;
+			w[7] = 1'b0;
+			w[8] = 1'b0;
+			w[9] = 1'b0;
+			w[10] = 1'b0;
+			w[11] = 1'b0;
+			w[12] = 1'b0;
+		end
+	end
 	always@(posedge clock)begin
 		if(Start==1'b1)
 		begin
-			w[0] = Data_IN[0];
+			w[0] = Data_IN[0];	
 			w[1] = Data_IN[1];
 			w[2] = Data_IN[2];
 			w[3] = Data_IN[3];
@@ -80,7 +99,7 @@ module shiftreg(Data_IN, Out, clock, clock2, reset, Start);
 			w[12] = 1'b0;
 		end
 	end
-	always@(posedge clock2) begin
+	always@(posedge clock2) begin   
 		w[12] = w[11];
 		w[11] = w[10];
 		w[10] = w[9];

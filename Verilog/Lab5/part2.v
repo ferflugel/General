@@ -5,7 +5,7 @@ module part2(ClockIn, Reset, Speed, CounterValue);
     input [1:0] Speed;
     output reg [3:0] CounterValue;
     reg Enable;
-    reg [11:0] RateDivider;
+    reg [10:0] RateDivider;
 
     // For every cycle (of the 500 Hz clock)
     always @(posedge ClockIn)
