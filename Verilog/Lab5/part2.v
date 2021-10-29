@@ -3,7 +3,7 @@ module part2(ClockIn, Reset, Speed, CounterValue);
     // Inputs, outputs, and wires
     input ClockIn, Reset;
     input [1:0] Speed;
-    output [3:0] CounterValue;
+    output reg [3:0] CounterValue;
     reg Enable;
     reg [11:0] RateDivider;
 
@@ -30,7 +30,7 @@ module part2(ClockIn, Reset, Speed, CounterValue);
                     2: RateDivider <= 11'd999;
                     3: RateDivider <= 11'd1999;
                 endcase
-                CounterValue <= (CounterValue = 4'b1111) ? 0 : CounterValue + 1;
+                CounterValue <= (CounterValue == 4'b1111) ? 0 : CounterValue + 1;
             end
             else
             begin
