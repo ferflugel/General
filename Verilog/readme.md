@@ -1,2 +1,2 @@
 # Credits
-## The code contained in this repository was written in collaboration with Ahmad Kaleem, Chris Landsdale, and Nicholas Sinclair. 
+## The code contained in this repository was written in collaboration with Ahmad Kaleem, Chris Landsdale, and Nicholas Sinclair. Any mistakes should be attributed to me. The code is property of the University of Toronto and should not be copied.  
