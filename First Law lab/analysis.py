@@ -10,17 +10,18 @@ from uncertainties import unumpy as unp
 pd.set_option('display.max_rows', 50)
 pd.set_option('display.max_columns', 50)
 
-df = pd.read_csv('data/part_2d.txt', sep='\t', skiprows=2)
+df = pd.read_csv('data/part_2a.txt', sep='\t', skiprows=2)
 print(df.head())
 
-sns.set_palette('pastel')
 
 sns.lineplot(data=df, x='Time(s)', y='Heater Energy (kJ)')
-sns.despine()
+
 plt.show()
 
 sns.lineplot(data=df, x='Time(s)', y='T1(Deg C)')
-sns.despine()
+plt.xlabel('Time (s)')
+plt.ylabel('Temperature (C)')
+plt.title('Temperature vs. time')
 plt.show()
 
 
@@ -29,10 +30,10 @@ plt.show()
 def get_heat_loss(file, start_time):
     data = pd.read_csv(file, sep='\t', skiprows=2)
     data = data[data['Time(s)'] > start_time]
-    dq = (data['Heater Energy (kJ)'].max() - data['Heater Energy (kJ)'].min())
+    dq = 2 * (data['Heater Energy (kJ)'].max() - data['Heater Energy (kJ)'].min())
     dt = (data['Time(s)'].max() - data['Time(s)'].min())
-    heat_loss = dq / dt
-    return ufloat(1000 * heat_loss, 1)
+    heat_loss = ufloat(dq, 0.1) / ufloat(dt, 0.1)
+    return 1000 * heat_loss
 
 
 heat_loss_A = get_heat_loss('data/part_2a.txt', 200)
@@ -67,3 +68,26 @@ edge_loss_A = heat_loss_A - walls_loss_A
 edge_loss_B = heat_loss_B - walls_loss_B
 edge_loss_C = heat_loss_C - walls_loss_C
 edge_loss_D = heat_loss_D - walls_loss_D
+
+
+#%% Specific heat capacity
+
+def get_specific_heat(mass_file, temp_file, start_time, heat_loss):
+    mass_data = pd.read_csv(mass_file, sep='\t', skiprows=2)
+    mass = np.trapz(x=mass_data['Time(s)'], y=mass_data['Mass Flowrate(g/min)']) / (60 * 1000)
+    print(mass)
+    temp_data = pd.read_csv(temp_file, sep='\t', skiprows=2)
+    temp_data = temp_data[temp_data['Time(s)'] > start_time]
+    temp_data = temp_data[temp_data['Time(s)'] < start_time + 10]
+    dT = ufloat(temp_data['T1(Deg C)'].max() - temp_data['T1(Deg C)'].min(), 0.1)
+    dQ = 2 * ufloat(temp_data['Heater Energy (kJ)'].max() - temp_data['Heater Energy (kJ)'].min(), 0.1) - 10 * (heat_loss / 1000)
+    cv = dQ / (mass * dT)
+    return cv
+
+
+cv_A = get_specific_heat('data/part_1a.txt', 'data/part_2a.txt', 60, heat_loss_A)
+cv_B = get_specific_heat('data/part_1b.txt', 'data/part_2b.txt', 60, heat_loss_B)
+cv_C = get_specific_heat('data/part_1c.txt', 'data/part_2c.txt', 60, heat_loss_C)
+cv_D = get_specific_heat('data/part_1d.txt', 'data/part_2d.txt', 60, heat_loss_D)
+
+#%% Get mass added

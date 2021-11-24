@@ -13,6 +13,9 @@ df = pd.read_csv('../experiment/delay.csv')
 sns.set_palette('pastel')
 sns.scatterplot(data=df, x='units(LC)', y='delay(us)')
 x_err = []
+
+sns.lineplot(x=np.array(range(0, 42)), y= 3.7133 * np.array(range(0, 42)) + 0.0200, color='k', lw=0.5)
+
 plt.errorbar(df['units(LC)'], df['delay(us)'], xerr=0*df['units(LC)'], yerr=0.05 + df['delay(us)'] - df['delay(us)'], fmt='.k', color=BLUE,
              ecolor=BLUE)
 sns.despine()
@@ -24,7 +27,7 @@ plt.text(24, 0, 'Delay = 3.71 LC units + 0.02')
 df['Yo'] = 1
 model = sm.OLS(df['units(LC)'], df[['Yo'] + ['delay(us)']]).fit()
 print('\n\n', model.summary())
-sns.lineplot(x=np.array(range(0, 42)), y= 3.7133 * np.array(range(0, 42)) + 0.0200)
+
 
 plt.savefig('../figures/lc_units_vs_time.png', dpi=100)
 plt.show()

@@ -1,0 +1,22 @@
+TIPS:
+- We should derive equation 4, provide equation 5, use equation on page 7 to plot the only graph!
+- Measure 3 voltages, select 5 settings of resistances for each of the voltages (these are our data points)
+
+APPARATUS NOTES:
+- Coil has 130 turns.
+- Measurements for the diameter of the coil:
+  Outer: 32.3 +- 0.05 cm
+  Inner: 29.7 +- 0.05 cm
+
+SCALE:
+- Source is 13.6 cm
+- Image is 13.0 cm
+- Distance between source and glass: 11.7
+- Error = 0.05 cm
+
+ERRORS:
+Error on voltage = 0.1 V
+Error on current = 0.001 A
+
+
+
