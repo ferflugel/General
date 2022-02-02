@@ -9,12 +9,14 @@ import statsmodels.api as sm
 for file in ['data2/data_2.txt', 'data2/data_4.txt',
              'data2/data_6.txt', 'data2/data_8.txt']:
     data = pd.read_csv(file, sep='\t')
-    sns.lineplot(x=data['CH1 (V)  '], y=100 * data['CH2 (V)'])
-    peaks, _ = find_peaks((-1) * data['CH2 (V)'].to_numpy(), distance=75)
-    plt.plot(data['CH1 (V)  '][peaks], 100 * data['CH2 (V)'][peaks], "x")
+    sns.lineplot(x=data['CH1 (V)  '], y= data['CH2 (V)'], color="k", lw=1)
 
 # Showing the plot
 sns.despine()
+plt.xlabel('Accelerating voltage (V)')
+plt.ylabel('Electrometer voltage (V)')
+plt.title('Accelerating vs Electrometer Voltage')
+plt.savefig('plots/multiple_lines', dpi=250)
 plt.show()
 
 # Taking the average after using interpolation to reformat the arrays
@@ -55,6 +57,10 @@ model = sm.OLS(pd.Series(x_range[peaks][1:]), variables[['count', 'const']]).fit
 print('\n\n', model.summary())
 a, b = 5.2727, 2.3636
 sns.lineplot(x=[0.5, 5.5], y=a*np.array([0.5, 5.5])+b, color='k', lw=1, alpha=1)
+plt.text(1.2, 16, 'R$^2$ = 1.0\nχ$^2$ = 0.0')
+plt.text(4.4, 0.7, "V = 5.27 n + 2.36")
+sns.lineplot(x=[0.5, 5.5], y=4.9*np.array([0.5, 5.5]), color='k', lw=1, alpha=1, ls='--')
+plt.text(5, 21, 'Theoretical\n prediction')
 
 # Scatter plot of the peaks
 sns.scatterplot(x=[1, 2, 3, 4, 5], y=x_range[peaks][1:], color=(1, 0.4118, 0.3804), alpha=1)
@@ -64,7 +70,15 @@ plt.xlim(0, 6)
 plt.ylim(0, 33)
 plt.xlabel('Valley number (count)')
 plt.ylabel('Accelerating voltage (V)')
+plt.title('Valley Number vs Accelerating Voltage')
 sns.despine()
 plt.savefig('plots/scatter_plot_extrema', dpi=250)
 plt.show()
 
+# Calculating the chi square
+x_values = np.array([1, 2, 3, 4, 5])
+expected = a * x_values + b
+chi_square = (np.array(x_range[peaks][1:]) - expected) ** 2 / expected
+chi_square = chi_square.sum()
+
+# E = 5.2727
