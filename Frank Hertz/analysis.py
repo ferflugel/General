@@ -4,6 +4,7 @@ import seaborn as sns
 import numpy as np
 from scipy.signal import find_peaks
 import statsmodels.api as sm
+from uncertainties import ufloat
 
 # Reads data from file, Plotting the data and minima
 for file in ['data2/data_2.txt', 'data2/data_4.txt',
@@ -81,4 +82,9 @@ expected = a * x_values + b
 chi_square = (np.array(x_range[peaks][1:]) - expected) ** 2 / expected
 chi_square = chi_square.sum()
 
-# E = 5.2727
+# Calculating the wavelength
+E = ufloat(5.27, 0.07)*1.6022e-19
+h, c = 6.626e-34, 3e8
+wavelength = h * c / E
+
+
