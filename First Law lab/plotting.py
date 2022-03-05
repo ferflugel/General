@@ -7,7 +7,7 @@ from uncertainties import unumpy as unp
 
 
 def get_fan_power(file):
-    # Load data
+    # Load raw-data
     data = pd.read_csv(file, sep='\t', skiprows=2)
 
     # Set constants
@@ -42,8 +42,8 @@ def get_fan_power(file):
 
 if __name__ == '__main__':
 
-    files = ['data/part_1a.txt', 'data/part_1b.txt', 'data/part_1c.txt', 'data/part_1d.txt',
-             'data/part_2a.txt', 'data/part_2b.txt', 'data/part_2c.txt', 'data/part_2d.txt']
+    files = ['raw-data/part_1a.txt', 'raw-data/part_1b.txt', 'raw-data/part_1c.txt', 'raw-data/part_1d.txt',
+             'raw-data/part_2a.txt', 'raw-data/part_2b.txt', 'raw-data/part_2c.txt', 'raw-data/part_2d.txt']
 
     results = {}
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         plt.show()
         fig.savefig(f'P{files[i][6:12]}.png')
 
-    part2_files = ['data/part_2a.txt', 'data/part_2b.txt', 'data/part_2c.txt', 'data/part_2d.txt']
+    part2_files = ['raw-data/part_2a.txt', 'raw-data/part_2b.txt', 'raw-data/part_2c.txt', 'raw-data/part_2d.txt']
 
     masses = [ufloat(23, 0.5), ufloat(42, 0.5), ufloat(23, 0.5), ufloat(40, 0.5)]
     '''
@@ -74,12 +74,12 @@ if __name__ == '__main__':
     for i in range(len(part2_files)):
         time = pd.read_csv(part2_files[i], sep='\t', skiprows=2)
         time = time['Time(s)']
-        data = get_fan_power(part2_files[i])
-        data = data / (masses[i] * ufloat(716.5, 0.05))
-        print(data.mean())
-        print(unp.nominal_values(data).std())
+        raw-data = get_fan_power(part2_files[i])
+        raw-data = raw-data / (masses[i] * ufloat(716.5, 0.05))
+        print(raw-data.mean())
+        print(unp.nominal_values(raw-data).std())
 
-        plt.scatter(time, unp.nominal_values(data), s=3)
+        plt.scatter(time, unp.nominal_values(raw-data), s=3)
         plt.title(f'Rate of Temperature Change vs. Time P{part2_files[i][6:12]}')
         plt.xlabel('Time(s)')
         plt.ylabel('Rate of temperature change (C/s)')

@@ -6,7 +6,7 @@ from scipy.signal import find_peaks
 import statsmodels.api as sm
 from uncertainties import ufloat
 
-# Reads data from file, Plotting the data and minima
+# Reads raw-data from file, Plotting the raw-data and minima
 for file in ['data2/data_2.txt', 'data2/data_4.txt',
              'data2/data_6.txt', 'data2/data_8.txt']:
     data = pd.read_csv(file, sep='\t')

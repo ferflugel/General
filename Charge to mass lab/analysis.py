@@ -9,7 +9,7 @@ from uncertainties import ufloat
 BLUE = (0.6313725490196078, 0.788235294117647, 0.9568627450980393)
 ORANGE = (1.0, 0.4980392156862745, 0.054901960784313725)
 
-# Loading the data into arrays
+# Loading the raw-data into arrays
 df = pd.read_csv('data.txt')
 voltage = np.array(df['voltage(V)'])
 current = np.array(df['current(A)'])

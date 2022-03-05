@@ -1,0 +1,8 @@
+# HOLOGRAPHY experiment
+
+## Finding the focus point
+-
+
+## Changes in intensity with the pinhole
+- With the pinhole:  klx
+- Without the pinhole: 0.97 klx

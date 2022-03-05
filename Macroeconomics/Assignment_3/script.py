@@ -37,7 +37,7 @@ columns = data.columns.tolist()
 data = data[columns[0:1] + columns[5:6] + columns[1:5]]
 print(data.to_latex(index=False))
 
-# Creating data for covid period
+# Creating raw-data for covid period
 data = c
 lower_bound = data['DATE'] >= '2019-10-01'
 upper_bound = data['DATE'] <= '2021-10-01'
