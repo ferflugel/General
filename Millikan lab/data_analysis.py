@@ -126,4 +126,7 @@ plt.savefig('figures/radii_vs_residuals', dpi=200)
 plt.show()
 plt.show()
 
-
+# Creating a latex table with the data
+voltages_table = pd.DataFrame(np.array([list(unumpy.nominal_values(voltage)),
+                 list(unumpy.std_devs(voltage))]).transpose(), columns=['a', 'b'])
+print(voltages_table.to_latex(index=False))
